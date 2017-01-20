@@ -11,6 +11,9 @@ namespace SRM.Models
         public SRMContext() : base("name=SRMContext")
         {
         }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+        }
         public virtual DbSet<Contact> Contacts { get; set; }
     }
 }
