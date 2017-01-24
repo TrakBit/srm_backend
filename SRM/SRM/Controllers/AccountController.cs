@@ -319,6 +319,7 @@ namespace SRM.Controllers
         }
 
         // POST api/Account/Register
+        [Authorize]
         [AllowAnonymous]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)

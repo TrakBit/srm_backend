@@ -12,7 +12,7 @@ namespace SRM.Controllers
     public class ContactController: ApiController
     {
         static readonly IContactRepository repository = new ContactRepository();
-
+        [Authorize]
         [HttpGet]
         public IEnumerable<Contact>GetAllContacts()
         {
