@@ -55,6 +55,7 @@ namespace SRM.Controllers
             return Ok(contact);
         }
 
+        [Authorize]
         [HttpPut]
         public IHttpActionResult UpdateCompany(int id, Contact contact)
         {
