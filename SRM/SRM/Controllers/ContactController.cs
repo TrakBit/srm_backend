@@ -12,6 +12,7 @@ namespace SRM.Controllers
     public class ContactController: ApiController
     {
         static readonly IContactRepository repository = new ContactRepository();
+
         [Authorize]
         [HttpGet]
         public IEnumerable<Contact>GetAllContacts()
@@ -30,6 +31,7 @@ namespace SRM.Controllers
             return Ok(contact);
         }
 
+        [Authorize]
         [HttpPost]
         public IHttpActionResult AddContact(Contact contact)
         {
@@ -41,6 +43,7 @@ namespace SRM.Controllers
             return CreatedAtRoute("DefaultApi", new { id = contact.ContactId }, contact);
         }
 
+        [Authorize]
         [HttpDelete]
         public IHttpActionResult RemoveContact(int id)
         {
