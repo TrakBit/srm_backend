@@ -12,5 +12,13 @@ namespace SRM.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Telephone { get; set; }
+        /*
+         * 0- High school student
+         * 1- Undergraduate student
+         * 2- Postgreduate student
+         * 3- Doctoral student
+         * 4- Working professional
+         */
+        public long LifecycleStage { get; set; }
     }
 }

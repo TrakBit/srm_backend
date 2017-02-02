@@ -50,6 +50,7 @@ namespace SRM.Repositories
             updateContact.LastName = contact.LastName;
             updateContact.Email = contact.Email;
             updateContact.Telephone = contact.Telephone;
+            updateContact.LifecycleStage = contact.LifecycleStage;
             db.SaveChanges();
             return true;
         }
