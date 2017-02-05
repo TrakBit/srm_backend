@@ -1,8 +1,8 @@
 ﻿using SRM.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Data.Entity;
+using System.Web.Http;
 
 namespace SRM.Repositories
 {
@@ -43,7 +43,7 @@ namespace SRM.Repositories
 
         }
 
-        public bool Update(int id, Contact contact)
+        public bool Update(Contact contact)
         {
             Contact updateContact = db.Contacts.Single(e => e.ContactId == contact.ContactId);
             updateContact.FirstName = contact.FirstName;

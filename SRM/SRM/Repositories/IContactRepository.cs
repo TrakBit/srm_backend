@@ -13,6 +13,6 @@ namespace SRM.Repositories
         Contact Get(int id);
         void Add(Contact contact);
         Contact Remove(int id);
-        bool Update(int id, Contact contact);
+        bool Update(Contact contact);
     }
 }

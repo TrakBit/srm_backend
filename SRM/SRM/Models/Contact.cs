@@ -20,5 +20,6 @@ namespace SRM.Models
          * 4- Working professional
          */
         public long LifecycleStage { get; set; }
+        public virtual ICollection<Deal> Deals { get; set; }
     }
 }

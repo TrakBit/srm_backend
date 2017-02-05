@@ -9,65 +9,65 @@ using System.Web.Http;
 
 namespace SRM.Controllers
 {
-    public class ContactController: ApiController
+    public class DealController : ApiController
     {
-        static readonly IContactRepository repository = new ContactRepository();
+        static readonly IDealRepository repository = new DealRepository();
 
         [Authorize]
         [HttpGet]
-        public IEnumerable<Contact>GetAllContacts()
+        public IEnumerable<Deal> GetAllDeals()
         {
             return repository.GetAll();
         }
 
         [HttpGet]
-        public IHttpActionResult GetContacts(int id)
+        public IHttpActionResult GetDeals(int id)
         {
-            Contact contact = repository.Get(id);
-            if (contact == null)
+            Deal deal = repository.Get(id);
+            if (deal == null)
             {
                 return NotFound();
             }
-            return Ok(contact);
+            return Ok(deal);
         }
 
         [Authorize]
         [HttpPost]
-        public IHttpActionResult AddContact(Contact contact)
+        public IHttpActionResult AddDeal(Deal deal)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            repository.Add(contact);
-            return CreatedAtRoute("DefaultApi", new { id = contact.ContactId }, contact);
+            repository.Add(deal);
+            return CreatedAtRoute("DefaultApi", new { id = deal.DealId }, deal);
         }
 
         [Authorize]
         [HttpDelete]
-        public IHttpActionResult RemoveContact(int id)
+        public IHttpActionResult RemoveDeal(int id)
         {
-            Contact contact = repository.Remove(id);
-            if (contact == null)
+            Deal deal = repository.Remove(id);
+            if (deal == null)
             {
                 return NotFound();
             }
-            return Ok(contact);
+            return Ok(deal);
         }
 
         [Authorize]
         [HttpPut]
-        public IHttpActionResult UpdateCompany(int id, Contact contact)
+        public IHttpActionResult UpdateDeal(int id, Deal deal)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            if (id != contact.ContactId)
+            if (id != deal.DealId)
             {
                 return BadRequest();
             }
-            repository.Update(contact);
+            repository.Update(deal);
             return StatusCode(HttpStatusCode.NoContent);
         }
     }
