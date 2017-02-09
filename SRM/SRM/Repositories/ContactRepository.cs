@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
 using System.Web.Http;
+using System;
+using System.Diagnostics;
 
 namespace SRM.Repositories
 {
-    public class ContactRepository: IContactRepository
+    public class ContactRepository : IContactRepository
     {
         private SRMContext db = new SRMContext();
 
@@ -46,6 +48,53 @@ namespace SRM.Repositories
         public bool Update(Contact contact)
         {
             Contact updateContact = db.Contacts.Single(e => e.ContactId == contact.ContactId);
+
+            var newDeal = contact.Deals.ToList();
+            var oldDeal = updateContact.Deals.ToList();
+
+            SRM.Models.Deal newDealInstance = new Deal();
+
+            foreach (var item in newDeal)
+            {
+                newDealInstance = item;
+            }
+
+            SRM.Models.Deal oldDealInstance = db.Deals.Single(e => e.DealId == newDealInstance.DealId);
+
+            if (oldDeal.Count > 0)
+            {
+                foreach (var item in oldDeal)
+                {
+                    if (newDealInstance.DealId == item.DealId)
+                    {
+                        if (newDealInstance.Name == null)
+                        {
+                            foreach (var dealObj in updateContact.Deals.ToList())
+                            {
+                                if (newDealInstance.DealId == dealObj.DealId)
+                                {
+                                    updateContact.Deals.Remove(dealObj);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (oldDealInstance.Name != null)
+                        {
+                            updateContact.Deals.Add(oldDealInstance);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (oldDealInstance.Name != null)
+                {
+                    updateContact.Deals.Add(oldDealInstance);
+                }
+            }
+
             updateContact.FirstName = contact.FirstName;
             updateContact.LastName = contact.LastName;
             updateContact.Email = contact.Email;

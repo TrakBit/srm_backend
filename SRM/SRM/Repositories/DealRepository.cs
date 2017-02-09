@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using SRM.Models;
+using System.Data.Entity;
 
 namespace SRM.Repositories
 {
