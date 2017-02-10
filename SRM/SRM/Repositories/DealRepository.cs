@@ -45,6 +45,54 @@ namespace SRM.Repositories
         public bool Update( Deal deal)
         {
             Deal updateDeal = db.Deals.Single(e => e.DealId == deal.DealId);
+
+            var newContact = deal.Contacts.ToList();
+            var oldContact = updateDeal.Contacts.ToList();
+
+            SRM.Models.Contact newContactInstance = new Contact();
+
+            foreach (var item in newContact)
+            {
+                newContactInstance = item;
+            }
+
+            SRM.Models.Contact oldContactInstance = db.Contacts.Single(e => e.ContactId == newContactInstance.ContactId);
+
+
+            if (oldContact.Count > 0)
+            {
+                foreach (var item in oldContact)
+                {
+                    if (newContactInstance.ContactId == item.ContactId)
+                    {
+                        if (newContactInstance.FirstName == null)
+                        {
+                            foreach (var dealObj in updateDeal.Contacts.ToList())
+                            {
+                                if (newContactInstance.ContactId == dealObj.ContactId)
+                                {
+                                    updateDeal.Contacts.Remove(dealObj);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (oldContactInstance.FirstName != null)
+                        {
+                            updateDeal.Contacts.Add(oldContactInstance);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (oldContactInstance.FirstName != null)
+                {
+                    updateDeal.Contacts.Add(oldContactInstance);
+                }
+            }
+
             updateDeal.Name = deal.Name;
             updateDeal.Amount = deal.Amount;
             updateDeal.Stage = deal.Stage;
