@@ -6,66 +6,66 @@ using System.Web.Http;
 
 namespace SRM.Controllers
 {
-    public class ContactController: ApiController
+    public class ModuleController: ApiController
     {
-        static readonly IContactRepository repository = new ContactRepository();
+        static readonly IModuleRepository repository = new ModuleRepository();
 
         [Authorize]
         [HttpGet]
-        public IEnumerable<Contact>GetAllContacts()
+        public IEnumerable<Module> GetAllModules()
         {
             return repository.GetAll();
         }
 
         [Authorize]
         [HttpGet]
-        public IHttpActionResult GetContacts(int id)
+        public IHttpActionResult GetModules(int id)
         {
-            Contact contact = repository.Get(id);
-            if (contact == null)
+            Module module = repository.Get(id);
+            if (module == null)
             {
                 return NotFound();
             }
-            return Ok(contact);
+            return Ok(module); 
         }
 
         [Authorize]
         [HttpPost]
-        public IHttpActionResult AddContact(Contact contact)
+        public IHttpActionResult AddModule(Module module)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            repository.Add(contact);
-            return CreatedAtRoute("DefaultApi", new { id = contact.ContactId }, contact);
+            repository.Add(module);
+            return CreatedAtRoute("DefaultApi", new { id = module.ModuleId }, module);
         }
 
         [Authorize]
         [HttpDelete]
-        public IHttpActionResult RemoveContact(int id)
+        public IHttpActionResult RemoveModule(int id)
         {
-            Contact contact = repository.Remove(id);
-            if (contact == null)
+            Module module = repository.Remove(id);
+            if (module == null)
             {
                 return NotFound();
             }
-            return Ok(contact);
+            return Ok(module);
         }
 
         [Authorize]
         [HttpPut]
-        public IHttpActionResult UpdateCompany(int id, Contact contact)
+        public IHttpActionResult updateModule(int id, Module module)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            if (id != contact.ContactId)
+            if (id != module.ModuleId)
             {
                 return BadRequest();
             }
-            repository.Update(contact);
+            repository.Update(module);
             return StatusCode(HttpStatusCode.NoContent);
         }
     }

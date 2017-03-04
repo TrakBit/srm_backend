@@ -50,7 +50,14 @@ namespace SRM.Repositories
             if (deal.Contacts != null) {
 
                 var newContact = deal.Contacts.ToList();
-                var oldContact = updateDeal.Contacts.ToList();
+                var oldContact = deal.Contacts.ToList();
+
+
+                if (updateDeal.Contacts != null)
+                {
+                    oldContact = updateDeal.Contacts.ToList();
+                }
+                
 
                 SRM.Models.Contact newContactInstance = new Contact();
                 SRM.Models.Contact oldContactInstance = new Contact();

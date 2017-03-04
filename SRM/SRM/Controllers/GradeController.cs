@@ -6,66 +6,66 @@ using System.Web.Http;
 
 namespace SRM.Controllers
 {
-    public class ContactController: ApiController
+    public class GradeController: ApiController
     {
-        static readonly IContactRepository repository = new ContactRepository();
+        static readonly IGradeRepository repository = new GradeRepository();
 
         [Authorize]
         [HttpGet]
-        public IEnumerable<Contact>GetAllContacts()
+        public IEnumerable<Grade> GetAllGrades()
         {
             return repository.GetAll();
         }
 
         [Authorize]
         [HttpGet]
-        public IHttpActionResult GetContacts(int id)
+        public IHttpActionResult GetGrades(int id)
         {
-            Contact contact = repository.Get(id);
-            if (contact == null)
+            Grade grade = repository.Get(id);
+            if (grade == null)
             {
                 return NotFound();
             }
-            return Ok(contact);
+            return Ok(grade);
         }
 
         [Authorize]
         [HttpPost]
-        public IHttpActionResult AddContact(Contact contact)
+        public IHttpActionResult AddGrade(Grade grade)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            repository.Add(contact);
-            return CreatedAtRoute("DefaultApi", new { id = contact.ContactId }, contact);
+            repository.Add(grade);
+            return CreatedAtRoute("DefaultApi", new { id = grade.GradeId }, grade);
         }
 
         [Authorize]
         [HttpDelete]
-        public IHttpActionResult RemoveContact(int id)
+        public IHttpActionResult RemoveGrade(int id)
         {
-            Contact contact = repository.Remove(id);
-            if (contact == null)
+            Grade grade = repository.Remove(id);
+            if (grade == null)
             {
                 return NotFound();
             }
-            return Ok(contact);
+            return Ok(grade);
         }
 
         [Authorize]
         [HttpPut]
-        public IHttpActionResult UpdateCompany(int id, Contact contact)
+        public IHttpActionResult updateGrade(int id, Grade grade)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            if (id != contact.ContactId)
+            if (id != grade.GradeId)
             {
                 return BadRequest();
             }
-            repository.Update(contact);
+            repository.Update(grade);
             return StatusCode(HttpStatusCode.NoContent);
         }
     }

@@ -21,5 +21,6 @@ namespace SRM.Models
          */
         public long LifecycleStage { get; set; }
         public virtual ICollection<Deal> Deals { get; set; }
+        public virtual ICollection<Grade> Grades { get; set; }
     }
 }

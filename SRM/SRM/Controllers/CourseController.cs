@@ -6,66 +6,65 @@ using System.Web.Http;
 
 namespace SRM.Controllers
 {
-    public class ContactController: ApiController
+    public class CourseController : ApiController
     {
-        static readonly IContactRepository repository = new ContactRepository();
+        static readonly ICourseRepository repository = new CourseRepository();
 
         [Authorize]
         [HttpGet]
-        public IEnumerable<Contact>GetAllContacts()
+        public IEnumerable<Course> GetAllCourse()
         {
             return repository.GetAll();
         }
 
-        [Authorize]
         [HttpGet]
-        public IHttpActionResult GetContacts(int id)
+        public IHttpActionResult GetCourse(int id)
         {
-            Contact contact = repository.Get(id);
-            if (contact == null)
+            Course course = repository.Get(id);
+            if (course == null)
             {
                 return NotFound();
             }
-            return Ok(contact);
+            return Ok(course);
         }
 
         [Authorize]
         [HttpPost]
-        public IHttpActionResult AddContact(Contact contact)
+        public IHttpActionResult AddCourse(Course course)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            repository.Add(contact);
-            return CreatedAtRoute("DefaultApi", new { id = contact.ContactId }, contact);
+            repository.Add(course);
+            return CreatedAtRoute("DefaultApi", new { id = course.CourseId }, course);
         }
 
         [Authorize]
         [HttpDelete]
-        public IHttpActionResult RemoveContact(int id)
+        public IHttpActionResult RemoveCourse(int id)
         {
-            Contact contact = repository.Remove(id);
-            if (contact == null)
+            Course course = repository.Remove(id);
+            if (course == null)
             {
                 return NotFound();
             }
-            return Ok(contact);
+            return Ok(course);
         }
 
         [Authorize]
         [HttpPut]
-        public IHttpActionResult UpdateCompany(int id, Contact contact)
+        public IHttpActionResult UpdateCourse(int id, Course course)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            if (id != contact.ContactId)
+            if (id != course.CourseId)
             {
                 return BadRequest();
             }
-            repository.Update(contact);
+            repository.Update(course);
             return StatusCode(HttpStatusCode.NoContent);
         }
     }
