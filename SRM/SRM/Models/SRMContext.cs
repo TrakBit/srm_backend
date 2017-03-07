@@ -14,7 +14,7 @@ namespace SRM.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Deal>()
-                        .HasMany(p => p.Contacts)
+                        .HasMany<Contact>(p => p.Contacts)
                         .WithMany(p => p.Deals)
                         .Map(m =>
                         {

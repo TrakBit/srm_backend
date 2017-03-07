@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using SRM.Models;
-using System.Data.Entity;
 
 namespace SRM.Repositories
 {
@@ -42,64 +39,44 @@ namespace SRM.Repositories
             }
         }
 
-        public bool Update( Deal deal)
+        public bool Update(Deal deal)
         {
-
             Deal updateDeal = db.Deals.Single(e => e.DealId == deal.DealId);
 
-            if (deal.Contacts != null) {
+            var newContactList = deal.Contacts.ToList();
+            var oldContactList = updateDeal.Contacts.ToList();
 
-                var newContact = deal.Contacts.ToList();
-                var oldContact = deal.Contacts.ToList();
-
-
-                if (updateDeal.Contacts != null)
+            foreach (var newContact in newContactList)
+            {
+                var oldContactInstance = db.Contacts.Single(c => c.ContactId == newContact.ContactId);
+                if (oldContactList.Count > 0)
                 {
-                    oldContact = updateDeal.Contacts.ToList();
-                }
-                
-
-                SRM.Models.Contact newContactInstance = new Contact();
-                SRM.Models.Contact oldContactInstance = new Contact();
-
-                foreach (var item in newContact)
-                {
-                    newContactInstance = item;
-                    oldContactInstance = db.Contacts.Single(e => e.ContactId == newContactInstance.ContactId);
-
-                    if (oldContact.Count > 0)
+                    foreach (var oldContact in oldContactList)
                     {
-                        foreach (var oldItem in oldContact)
+                        if (newContact.ContactId == oldContact.ContactId)
                         {
-                            if (newContactInstance.ContactId == oldItem.ContactId)
+                            if (newContact.FirstName == null)
                             {
-                                if (newContactInstance.FirstName == null)
-                                {
-                                    foreach (var dealObj in updateDeal.Contacts.ToList())
-                                    {
-                                        if (newContactInstance.ContactId == dealObj.ContactId)
-                                        {
-                                            updateDeal.Contacts.Remove(dealObj);
-                                        }
-                                    }
-                                }
+                                updateDeal.Contacts.Remove(oldContact);
                             }
                             else
                             {
-                                if (newContactInstance.FirstName != null)
-                                {
-                                    updateDeal.Contacts.Add(oldContactInstance);
-                                }
+                                updateDeal.Contacts.Add(oldContact);
                             }
                         }
-                    }
-                    else
-                    {
-                        if (oldContactInstance.FirstName != null)
+                        else
                         {
-                            updateDeal.Contacts.Add(oldContactInstance);
+                            if (newContact.FirstName != null)
+                            {
+                                updateDeal.Contacts.Add(oldContactInstance);
+                            }
                         }
+
                     }
+                }
+                else
+                {
+                    updateDeal.Contacts.Add(oldContactInstance);
                 }
             }
 
@@ -107,7 +84,7 @@ namespace SRM.Repositories
             updateDeal.Amount = deal.Amount;
             updateDeal.Stage = deal.Stage;
             db.SaveChanges();
-            return true;       
+            return true;
         }
     }
 }

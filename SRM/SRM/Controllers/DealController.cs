@@ -11,7 +11,7 @@ namespace SRM.Controllers
 {
     public class DealController : ApiController
     {
-        static readonly IDealRepository repository = new DealRepository();
+        readonly IDealRepository repository = new DealRepository();
 
         [Authorize]
         [HttpGet]

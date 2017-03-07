@@ -45,53 +45,40 @@ namespace SRM.Repositories
         {
             Contact updateContact = db.Contacts.Single(e => e.ContactId == contact.ContactId);
 
-            var newDeal = contact.Deals.ToList();
-            var oldDeal = updateContact.Deals.ToList();
+            var newDealList = contact.Deals.ToList();
+            var oldDealList = updateContact.Deals.ToList();
 
-            SRM.Models.Deal newDealInstance = new Deal();
-            SRM.Models.Deal oldDealInstance = new Deal();
-
-            foreach (var item in newDeal)
+            foreach (var newDeal in newDealList)
             {
-                newDealInstance = item;
-                oldDealInstance = db.Deals.Single(e => e.DealId == newDealInstance.DealId);
-
-                if (oldDeal.Count > 0)
+                var oldDealInstance = db.Deals.Single(d => d.DealId == newDeal.DealId);
+                if (oldDealList.Count > 0)
                 {
-                    foreach (var oldItem in oldDeal)
+                    foreach (var oldDeal in oldDealList)
                     {
-                        if (newDealInstance.DealId == oldItem.DealId)
+                        if (newDeal.DealId == oldDeal.DealId)
                         {
-                            if (newDealInstance.Name == null)
+                            if (newDeal.Name == null)
                             {
-                                foreach (var dealObj in updateContact.Deals.ToList())
-                                {
-                                    if (newDealInstance.DealId == dealObj.DealId)
-                                    {
-                                        updateContact.Deals.Remove(dealObj);
-                                    }
-                                }
+                                updateContact.Deals.Remove(oldDeal);
+                            }
+                            else
+                            {
+                                updateContact.Deals.Add(oldDeal);
                             }
                         }
                         else
                         {
-                            if (oldDealInstance.Name != null)
+                            if (newDeal.Name != null)
                             {
                                 updateContact.Deals.Add(oldDealInstance);
                             }
                         }
                     }
                 }
-                else
-                {
-                    if (oldDealInstance.Name != null)
-                    {
-                        updateContact.Deals.Add(oldDealInstance);
-                    }
+                else {
+                    updateContact.Deals.Add(oldDealInstance);
                 }
             }
-
-            
 
 
             updateContact.FirstName = contact.FirstName;

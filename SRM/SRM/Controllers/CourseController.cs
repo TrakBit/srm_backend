@@ -8,7 +8,7 @@ namespace SRM.Controllers
 {
     public class CourseController : ApiController
     {
-        static readonly ICourseRepository repository = new CourseRepository();
+        readonly ICourseRepository repository = new CourseRepository();
 
         [Authorize]
         [HttpGet]
