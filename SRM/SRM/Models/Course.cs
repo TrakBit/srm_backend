@@ -7,6 +7,10 @@ namespace SRM.Models
 {
     public class Course
     {
+        public Course()
+        {
+            Grades = new List<Grade>();
+        }
         public long CourseId { get; set; }
         public string Name { get; set;}
         public float Duration { get; set; }

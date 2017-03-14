@@ -7,6 +7,10 @@ namespace SRM.Models
 {
     public class Contact
     {
+        public Contact()
+        {
+            Grades = new List<Grade>();
+        }
         public long ContactId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
